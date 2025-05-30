@@ -1,0 +1,1167 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Journey of an Architect's Imagination</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #4ecdc4;
+            --secondary: #ff6b6b;
+            --light: #f7f7f7;
+            --dark: #2d3436;
+            --accent: #ffd166;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Lora', serif;
+        }
+        
+        .section {
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ball {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 100;
+            transition: transform 0.2s;
+        }
+        
+        .ball::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            width: 30%;
+            height: 30%;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 50%;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            z-index: 1;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .button:active {
+            transform: translateY(1px);
+        }
+        
+        .button::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .button:hover::after {
+            opacity: 1;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(78, 205, 196, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(78, 205, 196, 0);
+            }
+        }
+        
+        .timeline-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .portfolio-item {
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portfolio-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .portfolio-item img {
+            transition: all 0.5s;
+        }
+        
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .portfolio-item:hover .portfolio-overlay {
+            transform: translateY(0);
+        }
+        
+        .process-step {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.5s;
+        }
+        
+        .process-step.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .testimonial {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s;
+        }
+        
+        .testimonial.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .input-field {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .input-field input, .input-field textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: transparent;
+        }
+        
+        .input-field label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #999;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+        
+        .input-field input:focus, .input-field textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .input-field input:focus + label, 
+        .input-field textarea:focus + label,
+        .input-field input:not(:placeholder-shown) + label,
+        .input-field textarea:not(:placeholder-shown) + label {
+            top: -10px;
+            left: 10px;
+            font-size: 12px;
+            background-color: white;
+            padding: 0 5px;
+            color: var(--primary);
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            z-index: -1;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000000' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        
+        .horizontal-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .horizontal-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .horizontal-scroll::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        .scroll-item {
+            flex: 0 0 auto;
+            width: 300px;
+            margin-right: 30px;
+            scroll-snap-align: start;
+        }
+        
+        .blueprint {
+            background-color: #1a3263;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: white;
+            margin: 0 5px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .thank-you-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255,255,255,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        
+        .thank-you-animation.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .signature {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: sign 3s forwards;
+        }
+        
+        @keyframes sign {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                padding: 1rem;
+            }
+            
+            .ball {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .about-columns {
+                flex-direction: column;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ball" id="ball"></div>
+    
+    <!-- Chapter 1: Landing Page -->
+    <section id="home" class="section flex items-center justify-center relative">
+        <div class="bg-pattern"></div>
+        <div class="max-w-4xl text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 opacity-0" id="heroTitle">Sarah Winters</h1>
+            <p class="text-xl md:text-2xl mb-10 opacity-0" id="heroTagline">Designing Dreams Into Reality</p>
+            <button class="button pulse opacity-0" id="startButton">Start Your Journey</button>
+        </div>
+        
+        <svg class="absolute bottom-0 left-0 w-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#ffffff" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,218.7C672,235,768,245,864,234.7C960,224,1056,192,1152,176C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </section>
+    
+    <!-- Chapter 2: About Me -->
+    <section id="about" class="section bg-white py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-16 text-center">The Visionary Behind the Work</h2>
+            
+            <div class="about-columns flex flex-wrap">
+                <div class="w-full md:w-1/2 p-4">
+                    <div class="timeline-item p-6 bg-gray-50 rounded-lg shadow-md mb-8">
+                        <h3 class="text-2xl font-semibold mb-3">My Philosophy</h3>
+                        <p class="text-gray-700">Architecture is more than buildings—it's about creating spaces that inspire emotions and enhance lives. I believe in sustainable design that respects both the environment and the people who inhabit my creations.</p>
+                    </div>
+                    
+                    <div class="timeline-item p-6 bg-gray-50 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-3">My Approach</h3>
+                        <p class="text-gray-700">Every project begins with deep listening. I collaborate closely with clients to understand their vision, then blend functionality with beauty to create spaces that exceed expectations.</p>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-1/2 p-4">
+                    <div class="timeline-container relative">
+                        <h3 class="text-2xl font-semibold mb-6">Career Milestones</h3>
+                        
+                        <div class="timeline-item flex mb-8">
+                            <div class="timeline-marker w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold">
+                                2010
+                            </div>
+                            <div class="timeline-content ml-4">
+                                <h4 class="text-xl font-medium">Master's in Architecture</h4>
+                                <p class="text-gray-600">Graduated with honors from Yale School of Architecture</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item flex mb-8">
+                            <div class="timeline-marker w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold">
+                                2014
+                            </div>
+                            <div class="timeline-content ml-4">
+                                <h4 class="text-xl font-medium">First Major Project</h4>
+                                <p class="text-gray-600">Designed the award-winning Riverside Cultural Center</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item flex mb-8">
+                            <div class="timeline-marker w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold">
+                                2018
+                            </div>
+                            <div class="timeline-content ml-4">
+                                <h4 class="text-xl font-medium">Sustainability Award</h4>
+                                <p class="text-gray-600">Recognized for innovative eco-friendly design solutions</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item flex">
+                            <div class="timeline-marker w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold">
+                                2022
+                            </div>
+                            <div class="timeline-content ml-4">
+                                <h4 class="text-xl font-medium">Founded Winter Designs</h4>
+                                <p class="text-gray-600">Established my own architectural firm focusing on sustainable luxury</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Chapter 3: Portfolio -->
+    <section id="portfolio" class="section py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-10 text-center">Designs That Inspire</h2>
+            
+            <div class="filter-container flex justify-center mb-12 flex-wrap">
+                <div class="filter-btn active" data-filter="all">All Projects</div>
+                <div class="filter-btn" data-filter="residential">Residential</div>
+                <div class="filter-btn" data-filter="commercial">Commercial</div>
+                <div class="filter-btn" data-filter="interior">Interior</div>
+                <div class="filter-btn" data-filter="exterior">Exterior</div>
+            </div>
+            
+            <div class="portfolio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="portfolio-item rounded-lg overflow-hidden shadow-lg" data-category="residential exterior">
+                    <div class="relative h-64">
+                        <svg class="w-full h-full" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#e0f2fe"/>
+                            <path d="M50,200 L200,100 L350,200 Z" fill="#2563eb"/>
+                            <rect x="80" y="200" width="240" height="100" fill="#bfdbfe"/>
+                            <rect x="120" y="220" width="60" height="80" fill="#93c5fd"/>
+                            <rect x="220" y="220" width="60" height="50" fill="#93c5fd"/>
+                            <circle cx="300" cy="80" r="30" fill="#fcd34d"/>
+                            <path d="M280,50 Q320,20 360,50 T400,80" stroke="#fcd34d" stroke-width="5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3 class="text-xl font-bold mb-2">Lakeside Retreat</h3>
+                        <p>A modern residential home with panoramic lake views and sustainable materials.</p>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="portfolio-item rounded-lg overflow-hidden shadow-lg" data-category="commercial exterior">
+                    <div class="relative h-64">
+                        <svg class="w-full h-full" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#f0fdfa"/>
+                            <rect x="50" y="50" width="300" height="200" fill="#0d9488"/>
+                            <rect x="70" y="70" width="260" height="160" fill="#14b8a6"/>
+                            <rect x="90" y="90" width="220" height="120" fill="#5eead4"/>
+                            <rect x="180" y="210" width="40" height="40" fill="#0d9488"/>
+                            <circle cx="200" cy="150" r="40" fill="#f0fdfa"/>
+                            <path d="M180,150 L220,150 M200,130 L200,170" stroke="#0d9488" stroke-width="5"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3 class="text-xl font-bold mb-2">Emerald Office Tower</h3>
+                        <p>A sustainable commercial building with innovative energy-saving features.</p>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="portfolio-item rounded-lg overflow-hidden shadow-lg" data-category="interior residential">
+                    <div class="relative h-64">
+                        <svg class="w-full h-full" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#fef2f2"/>
+                            <rect x="50" y="50" width="300" height="200" fill="#fee2e2"/>
+                            <rect x="70" y="200" width="100" height="30" fill="#fecaca"/>
+                            <rect x="230" y="200" width="100" height="30" fill="#fecaca"/>
+                            <rect x="100" y="100" width="200" height="100" fill="#fca5a5"/>
+                            <circle cx="200" cy="80" r="20" fill="#ef4444"/>
+                            <path d="M150,150 Q200,120 250,150" stroke="#fef2f2" stroke-width="3" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3 class="text-xl font-bold mb-2">Urban Loft Redesign</h3>
+                        <p>A minimalist interior transformation of a historic downtown loft space.</p>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="portfolio-item rounded-lg overflow-hidden shadow-lg" data-category="commercial interior">
+                    <div class="relative h-64">
+                        <svg class="w-full h-full" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#f5f3ff"/>
+                            <rect x="50" y="50" width="300" height="200" fill="#ede9fe"/>
+                            <rect x="80" y="80" width="240" height="140" fill="#ddd6fe"/>
+                            <circle cx="200" cy="150" r="50" fill="#c4b5fd"/>
+                            <rect x="170" y="120" width="60" height="60" fill="#a78bfa"/>
+                            <line x1="100" y1="80" x2="100" y2="220" stroke="#8b5cf6" stroke-width="2"/>
+                            <line x1="150" y1="80" x2="150" y2="220" stroke="#8b5cf6" stroke-width="2"/>
+                            <line x1="250" y1="80" x2="250" y2="220" stroke="#8b5cf6" stroke-width="2"/>
+                            <line x1="300" y1="80" x2="300" y2="220" stroke="#8b5cf6" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3 class="text-xl font-bold mb-2">Creative Agency Headquarters</h3>
+                        <p>A dynamic workspace designed to foster collaboration and innovation.</p>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="portfolio-item rounded-lg overflow-hidden shadow-lg" data-category="residential interior">
+                    <div class="relative h-64">
+                        <svg class="w-full h-full" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#ecfdf5"/>
+                            <rect x="50" y="100" width="300" height="150" fill="#d1fae5"/>
+                            <rect x="80" y="130" width="100" height="120" fill="#a7f3d0"/>
+                            <rect x="220" y="130" width="100" height="120" fill="#a7f3d0"/>
+                            <rect x="80" y="80" width="240" height="30" fill="#6ee7b7"/>
+                            <circle cx="200" cy="95" r="10" fill="#10b981"/>
+                            <path d="M100,180 L160,180 M240,180 L300,180" stroke="#10b981" stroke-width="5"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3 class="text-xl font-bold mb-2">Minimalist Family Home</h3>
+                        <p>A serene residential interior focused on simplicity and natural light.</p>
+                    </div>
+                </div>
+                
+                <!-- Project 6 -->
+                <div class="portfolio-item rounded-lg overflow-hidden shadow-lg" data-category="commercial exterior">
+                    <div class="relative h-64">
+                        <svg class="w-full h-full" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="400" height="300" fill="#eff6ff"/>
+                            <rect x="100" y="50" width="200" height="200" fill="#bfdbfe"/>
+                            <rect x="120" y="70" width="160" height="160" fill="#93c5fd"/>
+                            <rect x="140" y="90" width="120" height="120" fill="#60a5fa"/>
+                            <rect x="160" y="110" width="80" height="80" fill="#3b82f6"/>
+                            <rect x="180" y="130" width="40" height="40" fill="#2563eb"/>
+                            <rect x="190" y="250" width="20" height="30" fill="#1d4ed8"/>
+                        </svg>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <h3 class="text-xl font-bold mb-2">Azure Tower</h3>
+                        <p>A striking commercial skyscraper with a distinctive geometric design.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Chapter 4: Process -->
+    <section id="process" class="section py-20 blueprint text-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-16 text-center">The Creative Journey</h2>
+            
+            <div class="horizontal-scroll pb-8">
+                <!-- Step 1 -->
+                <div class="scroll-item process-step">
+                    <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg p-6 rounded-lg border border-white border-opacity-20">
+                        <div class="w-16 h-16 rounded-full bg-white text-blue-900 flex items-center justify-center text-2xl font-bold mb-4">1</div>
+                        <h3 class="text-2xl font-semibold mb-3">Consultation</h3>
+                        <p class="text-gray-100">We begin with deep listening to understand your vision, needs, and constraints. This foundation shapes everything that follows.</p>
+                        <svg class="mt-6 w-full h-32" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="white" stroke-width="2"/>
+                            <circle cx="150" cy="50" r="30" fill="none" stroke="white" stroke-width="2"/>
+                            <line x1="80" y1="50" x2="120" y2="50" stroke="white" stroke-width="2"/>
+                            <circle cx="50" cy="50" r="5" fill="white"/>
+                            <circle cx="150" cy="50" r="5" fill="white"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="scroll-item process-step">
+                    <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg p-6 rounded-lg border border-white border-opacity-20">
+                        <div class="w-16 h-16 rounded-full bg-white text-blue-900 flex items-center justify-center text-2xl font-bold mb-4">2</div>
+                        <h3 class="text-2xl font-semibold mb-3">Concept</h3>
+                        <p class="text-gray-100">Initial ideas take shape as sketches and mood boards, exploring possibilities and establishing the project's direction.</p>
+                        <svg class="mt-6 w-full h-32" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="20" y1="80" x2="60" y2="30" stroke="white" stroke-width="1"/>
+                            <line x1="60" y1="30" x2="100" y2="70" stroke="white" stroke-width="1"/>
+                            <line x1="100" y1="70" x2="140" y2="20" stroke="white" stroke-width="1"/>
+                            <line x1="140" y1="20" x2="180" y2="60" stroke="white" stroke-width="1"/>
+                            <circle cx="20" cy="80" r="3" fill="white"/>
+                            <circle cx="60" cy="30" r="3" fill="white"/>
+                            <circle cx="100" cy="70" r="3" fill="white"/>
+                            <circle cx="140" cy="20" r="3" fill="white"/>
+                            <circle cx="180" cy="60" r="3" fill="white"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="scroll-item process-step">
+                    <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg p-6 rounded-lg border border-white border-opacity-20">
+                        <div class="w-16 h-16 rounded-full bg-white text-blue-900 flex items-center justify-center text-2xl font-bold mb-4">3</div>
+                        <h3 class="text-2xl font-semibold mb-3">Design</h3>
+                        <p class="text-gray-100">Detailed plans and 3D models bring the concept to life, refining every aspect of the space with precision.</p>
+                        <svg class="mt-6 w-full h-32" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="30" y="20" width="140" height="60" fill="none" stroke="white" stroke-width="1"/>
+                            <line x1="30" y1="50" x2="170" y2="50" stroke="white" stroke-width="1"/>
+                            <line x1="100" y1="20" x2="100" y2="80" stroke="white" stroke-width="1"/>
+                            <rect x="60" y="30" width="20" height="10" fill="white" fill-opacity="0.3" stroke="white" stroke-width="1"/>
+                            <rect x="120" y="60" width="20" height="10" fill="white" fill-opacity="0.3" stroke="white" stroke-width="1"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="scroll-item process-step">
+                    <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg p-6 rounded-lg border border-white border-opacity-20">
+                        <div class="w-16 h-16 rounded-full bg-white text-blue-900 flex items-center justify-center text-2xl font-bold mb-4">4</div>
+                        <h3 class="text-2xl font-semibold mb-3">Build</h3>
+                        <p class="text-gray-100">Working with trusted contractors, we transform designs into reality, overseeing every detail of construction.</p>
+                        <svg class="mt-6 w-full h-32" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="40" y="60" width="120" height="20" fill="white" fill-opacity="0.3" stroke="white" stroke-width="1"/>
+                            <rect x="50" y="40" width="100" height="20" fill="white" fill-opacity="0.3" stroke="white" stroke-width="1"/>
+                            <rect x="60" y="20" width="80" height="20" fill="white" fill-opacity="0.3" stroke="white" stroke-width="1"/>
+                            <line x1="70" y1="20" x2="70" y2="80" stroke="white" stroke-width="1"/>
+                            <line x1="130" y1="20" x2="130" y2="80" stroke="white" stroke-width="1"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Step 5 -->
+                <div class="scroll-item process-step">
+                    <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg p-6 rounded-lg border border-white border-opacity-20">
+                        <div class="w-16 h-16 rounded-full bg-white text-blue-900 flex items-center justify-center text-2xl font-bold mb-4">5</div>
+                        <h3 class="text-2xl font-semibold mb-3">Deliver</h3>
+                        <p class="text-gray-100">The final reveal transforms vision into reality—a space that inspires and functions beautifully for years to come.</p>
+                        <svg class="mt-6 w-full h-32" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="50" y="30" width="100" height="50" fill="white" fill-opacity="0.3" stroke="white" stroke-width="1"/>
+                            <path d="M50,30 L100,10 L150,30" fill="none" stroke="white" stroke-width="1"/>
+                            <rect x="80" y="50" width="20" height="30" fill="none" stroke="white" stroke-width="1"/>
+                            <circle cx="150" cy="20" r="10" fill="white" fill-opacity="0.3" stroke="white" stroke-width="1"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Chapter 5: Testimonials -->
+    <section id="testimonials" class="section py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-16 text-center">Words of Praise</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial bg-white p-6 rounded-lg shadow-lg relative">
+                    <div class="absolute -top-5 left-6 w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                        </svg>
+                    </div>
+                    <div class="pt-4">
+                        <p class="text-gray-600 italic mb-4">"Sarah transformed our outdated office into a space that inspires creativity and collaboration. Her attention to detail and understanding of our needs exceeded our expectations."</p>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                                <span class="text-gray-500 font-bold">JM</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold">James Morrison</h4>
+                                <p class="text-sm text-gray-500">CEO, Creative Solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial bg-white p-6 rounded-lg shadow-lg relative">
+                    <div class="absolute -top-5 left-6 w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                        </svg>
+                    </div>
+                    <div class="pt-4">
+                        <p class="text-gray-600 italic mb-4">"Working with Sarah on our dream home was a joy. She listened to our needs and created a space that perfectly balances beauty and functionality. We couldn't be happier."</p>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                                <span class="text-gray-500 font-bold">EL</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold">Emma & Lucas Chen</h4>
+                                <p class="text-sm text-gray-500">Homeowners</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial bg-white p-6 rounded-lg shadow-lg relative">
+                    <div class="absolute -top-5 left-6 w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                        </svg>
+                    </div>
+                    <div class="pt-4">
+                        <p class="text-gray-600 italic mb-4">"Sarah's design for our restaurant perfectly captured our brand essence. The space is not only beautiful but also highly functional for our staff and welcoming for our guests."</p>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                                <span class="text-gray-500 font-bold">DP</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold">Daniel Patel</h4>
+                                <p class="text-sm text-gray-500">Owner, Fusion Kitchen</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Chapter 6: Contact -->
+    <section id="contact" class="section py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-16 text-center">Let's Create Together</h2>
+            
+            <div class="flex flex-wrap">
+                <div class="w-full lg:w-1/2 p-4">
+                    <form id="contactForm" class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="input-field">
+                            <input type="text" id="name" placeholder=" " required>
+                            <label for="name">Your Name</label>
+                        </div>
+                        
+                        <div class="input-field">
+                            <input type="email" id="email" placeholder=" " required>
+                            <label for="email">Your Email</label>
+                        </div>
+                        
+                        <div class="input-field">
+                            <input type="text" id="subject" placeholder=" " required>
+                            <label for="subject">Subject</label>
+                        </div>
+                        
+                        <div class="input-field">
+                            <textarea id="message" rows="5" placeholder=" " required></textarea>
+                            <label for="message">Your Message</label>
+                        </div>
+                        
+                        <button type="submit" class="button w-full">Send Message</button>
+                    </form>
+                </div>
+                
+                <div class="w-full lg:w-1/2 p-4">
+                    <div class="bg-white p-8 rounded-lg shadow-lg h-full">
+                        <h3 class="text-2xl font-semibold mb-6">Get in Touch</h3>
+                        
+                        <div class="flex items-start mb-6">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Office Location</h4>
+                                <p class="text-gray-600">123 Design Avenue, Creative District<br>New York, NY 10001</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start mb-6">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Phone</h4>
+                                <p class="text-gray-600">(212) 555-1234</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start mb-8">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-white mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Email</h4>
+                                <p class="text-gray-600">sarah@winterdesigns.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center">
+                            <a href="#" class="social-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-blue-600" viewBox="0 0 16 16">
+                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-blue-400" viewBox="0 0 16 16">
+                                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-blue-800" viewBox="0 0 16 16">
+                                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="text-red-500" viewBox="0 0 16 16">
+                                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-md z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="#home" class="text-2xl font-bold text-gray-800">SW</a>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#portfolio" class="nav-link">Portfolio</a>
+                    <a href="#process" class="nav-link">Process</a>
+                    <a href="#testimonials" class="nav-link">Testimonials</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+                
+                <button class="md:hidden" id="menuToggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="md:hidden hidden bg-white w-full" id="mobileMenu">
+            <div class="container mx-auto px-4 py-4">
+                <a href="#home" class="block py-2 mobile-nav-link">Home</a>
+                <a href="#about" class="block py-2 mobile-nav-link">About</a>
+                <a href="#portfolio" class="block py-2 mobile-nav-link">Portfolio</a>
+                <a href="#process" class="block py-2 mobile-nav-link">Process</a>
+                <a href="#testimonials" class="block py-2 mobile-nav-link">Testimonials</a>
+                <a href="#contact" class="block py-2 mobile-nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Thank You Animation -->
+    <div class="thank-you-animation" id="thankYouAnimation">
+        <div class="text-center">
+            <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                <path class="signature" d="M50,100 C70,80 90,120 110,100 C130,80 150,120 170,100 C190,80 210,120 230,100" fill="none" stroke="#4ecdc4" stroke-width="4" stroke-linecap="round"/>
+                <text x="150" y="150" text-anchor="middle" fill="#2d3436" font-family="Lora, serif" font-size="24">Thank You!</text>
+            </svg>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ball animation
+            const ball = document.getElementById('ball');
+            let ballX = 100;
+            let ballY = 100;
+            let targetX = ballX;
+            let targetY = ballY;
+            let velocityX = 0;
+            let velocityY = 0;
+            const easing = 0.08;
+            const bounce = 0.8;
+            let isAnimating = false;
+            
+            function animateBall() {
+                if (!isAnimating) return;
+                
+                // Calculate distance to target
+                let dx = targetX - ballX;
+                let dy = targetY - ballY;
+                
+                // Apply easing
+                velocityX += dx * easing;
+                velocityY += dy * easing;
+                
+                // Apply friction
+                velocityX *= 0.92;
+                velocityY *= 0.92;
+                
+                // Update position
+                ballX += velocityX;
+                ballY += velocityY;
+                
+                // Apply bounce effect at screen edges
+                if (ballX < 30) {
+                    ballX = 30;
+                    velocityX *= -bounce;
+                } else if (ballX > window.innerWidth - 30) {
+                    ballX = window.innerWidth - 30;
+                    velocityX *= -bounce;
+                }
+                
+                if (ballY < 30) {
+                    ballY = 30;
+                    velocityY *= -bounce;
+                } else if (ballY > window.innerHeight - 30) {
+                    ballY = window.innerHeight - 30;
+                    velocityY *= -bounce;
+                }
+                
+                // Apply squash and stretch effect
+                const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+                const scaleX = 1 - speed * 0.01;
+                const scaleY = 1 + speed * 0.01;
+                
+                // Update ball position and scale
+                ball.style.transform = `translate(${ballX - 30}px, ${ballY - 30}px) scale(${scaleX}, ${scaleY})`;
+                
+                requestAnimationFrame(animateBall);
+            }
+            
+            // Start ball animation
+            function startBallAnimation() {
+                isAnimating = true;
+                animateBall();
+            }
+            
+            // Move ball to element
+            function moveBallTo(element, offsetX = 0, offsetY = 0) {
+                const rect = element.getBoundingClientRect();
+                targetX = rect.left + rect.width / 2 + offsetX;
+                targetY = rect.top + rect.height / 2 + offsetY;
+            }
+            
+            // Hero section animations
+            function animateHero() {
+                const heroTitle = document.getElementById('heroTitle');
+                const heroTagline = document.getElementById('heroTagline');
+                const startButton = document.getElementById('startButton');
+                
+                setTimeout(() => {
+                    heroTitle.style.opacity = '1';
+                    heroTitle.style.transform = 'translateY(0)';
+                    heroTitle.style.transition = 'opacity 1s, transform 1s';
+                    
+                    // Move ball to title
+                    moveBallTo(heroTitle, -150, 0);
+                }, 500);
+                
+                setTimeout(() => {
+                    heroTagline.style.opacity = '1';
+                    heroTagline.style.transform = 'translateY(0)';
+                    heroTagline.style.transition = 'opacity 1s, transform 1s';
+                    
+                    // Move ball to tagline
+                    moveBallTo(heroTagline, -100, 0);
+                }, 1000);
+                
+                setTimeout(() => {
+                    startButton.style.opacity = '1';
+                    startButton.style.transform = 'translateY(0)';
+                    startButton.style.transition = 'opacity 1s, transform 1s';
+                    
+                    // Move ball to button
+                    moveBallTo(startButton);
+                }, 1500);
+            }
+            
+            // Start button click
+            document.getElementById('startButton').addEventListener('click', function() {
+                document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+                
+                setTimeout(() => {
+                    moveBallTo(document.querySelector('.timeline-item'));
+                }, 500);
+            });
+            
+            // Scroll animations
+            function handleScroll() {
+                const scrollPosition = window.scrollY;
+                
+                // Animate timeline items
+                document.querySelectorAll('.timeline-item').forEach((item, index) => {
+                    const rect = item.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.8) {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 200);
+                    }
+                });
+                
+                // Animate process steps
+                document.querySelectorAll('.process-step').forEach((step, index) => {
+                    const rect = step.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.8) {
+                        setTimeout(() => {
+                            step.classList.add('visible');
+                        }, index * 200);
+                    }
+                });
+                
+                // Animate testimonials
+                document.querySelectorAll('.testimonial').forEach((testimonial, index) => {
+                    const rect = testimonial.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.8) {
+                        setTimeout(() => {
+                            testimonial.classList.add('visible');
+                        }, index * 200);
+                    }
+                });
+                
+                // Move ball based on scroll position
+                const sections = ['home', 'about', 'portfolio', 'process', 'testimonials', 'contact'];
+                let currentSection = null;
+                
+                sections.forEach(section => {
+                    const element = document.getElementById(section);
+                    const rect = element.getBoundingClientRect();
+                    
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                        currentSection = section;
+                    }
+                });
+                
+                if (currentSection) {
+                    const section = document.getElementById(currentSection);
+                    
+                    switch (currentSection) {
+                        case 'home':
+                            moveBallTo(document.getElementById('startButton'));
+                            break;
+                        case 'about':
+                            moveBallTo(document.querySelector('.timeline-item:nth-child(2)'));
+                            break;
+                        case 'portfolio':
+                            moveBallTo(document.querySelector('.filter-btn.active'));
+                            break;
+                        case 'process':
+                            const processSteps = document.querySelectorAll('.process-step');
+                            const visibleStep = Array.from(processSteps).find(step => {
+                                const rect = step.getBoundingClientRect();
+                                return rect.left <= window.innerWidth / 2 && rect.right >= window.innerWidth / 2;
+                            }) || processSteps[0];
+                            
+                            moveBallTo(visibleStep);
+                            break;
+                        case 'testimonials':
+                            moveBallTo(document.querySelector('.testimonial'));
+                            break;
+                        case 'contact':
+                            moveBallTo(document.querySelector('.button'));
+                            break;
+                    }
+                }
+                
+                // Show thank you animation when reaching the bottom
+                const scrollHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+                
+                if (scrollPosition + windowHeight >= scrollHeight - 100) {
+                    document.getElementById('thankYouAnimation').classList.add('show');
+                    
+                    setTimeout(() => {
+                        document.getElementById('thankYouAnimation').classList.remove('show');
+                    }, 3000);
+                }
+            }
+            
+            // Portfolio filters
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active state
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Move ball to active filter
+                    moveBallTo(this);
+                    
+                    // Filter items
+                    const filter = this.getAttribute('data-filter');
+                    
+                    document.querySelectorAll('.portfolio-item').forEach(item => {
+                        const categories = item.getAttribute('data-category').split(' ');
+                        
+                        if (filter === 'all' || categories.includes(filter)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Portfolio item click
+            document.querySelectorAll('.portfolio-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    moveBallTo(this);
+                });
+            });
+            
+            // Contact form submission
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show thank you animation
+                document.getElementById('thankYouAnimation').classList.add('show');
+                
+                setTimeout(() => {
+                    document.getElementById('thankYouAnimation').classList.remove('show');
+                    this.reset();
+                }, 3000);
+            });
+            
+            // Mobile menu toggle
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                const mobileMenu = document.getElementById('mobileMenu');
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Mobile nav links
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', function() {
+                    document.getElementById('mobileMenu').classList.add('hidden');
+                });
+            });
+            
+            // Initialize
+            startBallAnimation();
+            animateHero();
+            
+            // Event listeners
+            window.addEventListener('scroll', handleScroll);
+            window.addEventListener('resize', handleScroll);
+            
+            // Initial scroll check
+            handleScroll();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'947ee880644147eb',t:'MTc0ODYxNTIwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
